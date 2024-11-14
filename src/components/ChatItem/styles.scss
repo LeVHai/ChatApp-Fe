@@ -1,0 +1,18 @@
+.chat-item{
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover{
+    background-color: #e6e6e6ab;
+    }
+}
+.isActive{
+    background-color: #919191ab;
+}
+.desc-conversation{
+    // white-space: nowrap;      
+    // overflow: hidden;        
+    // text-overflow: ellipsis;
+    max-width:100%;
+
+}

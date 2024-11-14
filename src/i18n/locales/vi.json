@@ -1,0 +1,52 @@
+{
+  "common": {
+    "seconds": "giây trước",
+    "minutes": "phút trước",
+    "hours": "giờ trước",
+    "days": "ngày trước",
+    "months": "tháng trước",
+    "years": "năm trước",
+    "favorite": "Yêu thích",
+    "friend": "Bạn bè",
+    "message": "Tin nhắn",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "name": "Tên",
+    "password": "Mật khẩu",
+    "forgot_password": "Xác nhận mật khẩu",
+    "date_of_birth": "Ngày sinh",
+    "location": "Địa chỉ",
+    "Image":"Ảnh",
+    "cancel":"Huỷ",
+    "save":"Lưu",
+    "delete":"Xoá",
+    "add_friend":"Kết bạn",
+    "upload_image":"Tải ảnh lên"
+  },
+  "home": {
+    "shortcut": "Lối tắt của bạn",
+    "contact_person": "Người liên hệ"
+  },
+  "profile":{
+    "article":"Bài viết",
+    "introduce":"Giới thiệu",
+    "edit_info":"Chỉnh sửa thông tin"
+  },
+  "post":{
+    "you_liked":"Bạn đã thích",
+    "others_liked":"ngời khác đã thích",
+    "comment":"Bình luận",
+    "one_person_liked":"1 người đã thích",
+    "input_comment":"Viết câu trả lời",
+    "you_think":"bạn đang nghĩ gì ?",
+    "reply":"Phản hồi",
+    "share":"Chia sẻ",
+    "like":"Thích",
+    "liked":"Đã thích",
+    "see_more":"Xem thêm",
+    "all_comment":"Xem tất cả bình luận"
+
+
+
+  }
+}

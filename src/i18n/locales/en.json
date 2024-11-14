@@ -1,0 +1,11 @@
+{
+    "common": {
+      "seconds": "giây trước",
+      "minutes": "phút trước",
+      "hours": "giờ trước",
+      "days": "ngày trước",
+      "months": "tháng trước",
+      "years": "năm trước"
+    }
+  }
+  

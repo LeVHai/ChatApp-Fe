@@ -1,0 +1,31 @@
+.avatar {
+    display: inline-block;
+    position: relative;
+    margin: 1px;
+    .upload-container {
+        position: absolute;
+      }
+      .upload-avatar {
+        position: absolute;
+        border-radius: 50%;
+        bottom:-5px;
+        border: 2px dashed rgb(255, 255, 255);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(139, 139, 139, 0.644);
+        &:hover {
+          background-color: rgba(139, 139, 139, 0.829);
+          cursor: pointer;
+        }
+      }
+      .icon-camera {
+        color: white;
+        font-size: 20px;
+        &:hover {
+          color: rgb(192, 192, 192);
+        }
+      }
+  }
+ 

@@ -1,0 +1,65 @@
+.avatar {
+  position: relative;
+  border-radius: 50%;
+  .upload-avatar {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px dashed rgb(255, 255, 255);
+    // text-align: center;
+    // line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(139, 139, 139, 0.644);
+    &:hover {
+      background-color: rgba(139, 139, 139, 0.829);
+      cursor: pointer;
+    }
+  }
+  .icon-camera {
+    color: white;
+    font-size: 20px;
+    &:hover {
+      color: rgb(192, 192, 192);
+    }
+  }
+}
+
+.profile_text {
+  padding-top: 5px;
+}
+.profile-container{
+  overflow: hidden;
+  width: 100%;
+}
+.profile{
+  flex-grow: 1;
+  
+  transform: translateX(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.editing {
+      transform: translateX(-100%); 
+      // display: none;
+      height: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+.profile-content {
+  transition: transform 0.5s ease;
+}
+.edit{
+      height: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.show-input {
+  flex-grow: 1;
+
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
