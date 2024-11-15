@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import {
   BrowserRouter,
   Navigate,
@@ -8,21 +7,24 @@ import {
   Routes,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 import { getInfoUser } from "./core/action/userAction";
 import { setSocket } from "./core/action/socketAction";
 import { getOnlineUser } from "./core/action/chatAction";
+import { Suspense, lazy } from "react";
 import MainLayout from "./Layout/MainLayout";
 import Chat from "./page/Chat/Chat";
-import Login from "./page/Login";
 import ChatWindow from "./page/Chat/ChatWindow";
+import Login from "./page/Login";
+import Register from "./page/Register";
 
 export default function App() {
   const { token } = useSelector((state) => state.authReducer);
   const { socket } = useSelector((state) => state.socketReducer);
   const { conversations } = useSelector((state) => state.chatReducer);
-  const { user } = useSelector(state => state.userReducer)
+  const { user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (token) {
       dispatch(getInfoUser());
@@ -48,21 +50,23 @@ export default function App() {
       };
     }
   }, [user]);
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<PrivateRouter token={token} />}>
-          <Route element={<MainLayout />}>
-            <Route path="/chat" element={<Chat/>}>
-            <Route path="/chat/:id" element={<ChatWindow/>}></Route>
+        <Routes>
+          <Route element={<PrivateRouter token={token} />}>
+            <Route element={<MainLayout />}>
+              <Route  path="/chat" element={<Chat />}>
+                <Route path="/chat/:id" element={<ChatWindow />}></Route>
+              </Route>
             </Route>
           </Route>
-        </Route>
 
-        <Route element={<RejectedRouter token={token} />}>
-          <Route path="/login" element={<Login />} />
-        </Route>
-      </Routes>
+          <Route element={<RejectedRouter token={token} />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
+        </Routes>
     </BrowserRouter>
   );
 }

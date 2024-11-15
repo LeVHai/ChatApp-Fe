@@ -30,7 +30,7 @@ export const API_URL = {
     method: API_METHOD.POST,
     body: true,
   },
-  postRefreshToken:{
+  postRefreshToken: {
     url: "/user/refresh-token",
     method: API_METHOD.POST,
     body: true,

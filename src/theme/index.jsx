@@ -10,33 +10,31 @@ export const ThemeProvider = ({ children }) => {
         components: {
           Button: {
             colorBgContainer: selectedTheme.button,
-            colorText:selectedTheme.textPrimary,
-            
+            colorText: selectedTheme.textPrimary,
           },
           Input: {
-            colorBgContainer:selectedTheme.secondary,
-            colorText:selectedTheme.textPrimary,
+            colorBgContainer: selectedTheme.secondary,
+            colorText: selectedTheme.textPrimary,
           },
           Menu: {
-            colorBgContainer:selectedTheme.primary  ,
-            colorText:selectedTheme.textPrimary,
+            colorBgContainer: selectedTheme.primary,
+            colorText: selectedTheme.textPrimary,
           },
-          Typography:{
-            colorText:selectedTheme.textPrimary
+          Typography: {
+            colorText: selectedTheme.textPrimary,
           },
-          Layout:{
-            siderBg:selectedTheme.primary
+          Layout: {
+            siderBg: selectedTheme.primary,
           },
-          Modal:{
-            colorBgContainer:selectedTheme.primary,
-            colorBgLayout:selectedTheme.primary,
-          }
+          Modal: {
+            colorBgContainer: selectedTheme.primary,
+            colorBgLayout: selectedTheme.primary,
+          },
         },
         token: {
           colorBgLayout: selectedTheme.primary,
         },
       }}
-      
     >
       {children}
     </ConfigProvider>

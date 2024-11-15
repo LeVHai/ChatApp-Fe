@@ -39,13 +39,13 @@ const ChatWindow = () => {
   const { socket } = useSelector((state) => state.socketReducer);
   const { user } = useSelector((state) => state.userReducer);
   const { selectedTheme } = useTheme();
+  const { conversations = [] } = useSelector((state) => state.chatReducer);
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [conversation, setConversation] = useState(null);
   const [loadingMess, setLoadingMess] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [isPickerVisible, setPickerVisible] = useState(false);
   const lazyLoad = useRef({ page: 1, limit: 15 });
   const addMemberRef = useRef();
   const chatContentRef = useRef(null);
@@ -53,12 +53,17 @@ const ChatWindow = () => {
   const { id } = useParams();
 
   const loadConversation = useCallback(() => {
-    dispatch(
-      getOneConversation({ _id: id }, (res) => {
-        if (isSuccess(res)) setConversation(res.data.data);
-      })
-    );
-  }, [dispatch, id]);
+    const cv = conversations.find((conversation) => conversation._id == id);
+    if (cv) {
+      setConversation(cv);
+    } else {
+      dispatch(
+        getOneConversation({ _id: id }, (res) => {
+          if (isSuccess(res)) setConversation(res.data.data);
+        })
+      );
+    }
+  }, [id]);
 
   const loadMessage = useCallback(() => {
     setLoadingMess(true);

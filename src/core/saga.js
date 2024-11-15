@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from "redux-saga/effects";
+import { all, call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { AUTH_TYPE } from "./reducer/authReducer";
 import { api } from "./service/api";
 import { API_URL } from "./service/config";
@@ -15,9 +15,34 @@ export default function* rootSaga() {
     watchSearchUser(),
     watchUserRoom(),
     watchGetMessage(),
-    watchPostUserLogout()
+    watchPostUserLogout(),
+    watchPostUserRegister()
   ]);
 }
+
+
+function* postUserRegister(actions) {
+  try {
+    const response = yield call(api, {
+      ...API_URL.postRegister,
+      params: { ...actions.params },
+    });
+    if (actions.callBack) {
+      actions.callBack(response); // Trả về response khi thành công
+    }
+  } catch (error) {
+    if (actions.callBack) {
+      actions.callBack(error.response); // Trả về lỗi từ server nếu có
+    }
+    console.error("Saga error:", error); // Log lỗi để debug
+  }
+ 
+}
+
+export function* watchPostUserRegister() {
+  yield takeEvery(AUTH_TYPE.REGISTER, postUserRegister);
+}
+
 function* postUserLogin(actions) {
   const response = yield call(api, {
     ...API_URL.postLogin,
@@ -34,7 +59,7 @@ function* postUserLogin(actions) {
 }
 
 export function* watchPostUserLogin() {
-  yield takeEvery(AUTH_TYPE.LOGIN, postUserLogin);
+  yield takeLatest(AUTH_TYPE.LOGIN, postUserLogin);
 }
 function* postUserLogout(actions) {
   console.log(actions);

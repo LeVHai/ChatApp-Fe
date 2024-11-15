@@ -11,5 +11,5 @@ export const useTheme = () => {
   const setTheme = (theme) => {
     dispatch(setThemeAction(theme));
   };
-  return { theme,selectedTheme, setTheme };
+  return { theme, selectedTheme, setTheme };
 };

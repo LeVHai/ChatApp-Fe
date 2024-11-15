@@ -1,7 +1,5 @@
 import { Button, Carousel, Col, Flex, Input, Row, Typography } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-import Conversation from "./Conversation";
-import ChatWindow from "./ChatWindow";
 import { useTheme } from "../../hooks/useTheme";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,12 +11,15 @@ import CreateConversation from "../../components/CreateConversation";
 const Chat = () => {
   const { conversations } = useSelector((state) => state.chatReducer);
   const { theme, selectedTheme } = useTheme();
-  const [activeId, setActiveId] = useState("");
   const conversationRef = useRef();
   const lazyConversation = useRef({ page: 1, limit: 10, totalPage: 0 });
   const location = useLocation();
 
-  const isActive = location.pathname.split("/")[2]
+  const [activeId, setActiveId] = useState(null);
+
+  const handleSetActiveId = (id) => {
+    setActiveId(id);
+  };
 
   const isChatSelected = location.pathname.includes("/chat/");
   console.log(conversations);
@@ -76,9 +77,19 @@ const Chat = () => {
               <Input prefix={<SearchOutlined />} />
             </div>
             <div className="conversation-list">
-              {conversations.map((conversation) => (
-                <ConversationItem {...conversation} />
-              ))}
+              {conversations.length === 0 ? (
+                <div>Bạn chưa có cuộc hội thoại nào</div>
+              ) : (
+                conversations.map((conversation) => (
+                  <ConversationItem
+                    key={conversation._id}
+                    {...conversation}
+                    activeId={activeId}
+                    isActive={conversation._id === activeId}
+                    setActiveId={handleSetActiveId}
+                  />
+                ))
+              )}
             </div>
           </div>
         </Col>
