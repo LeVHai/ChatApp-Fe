@@ -3,12 +3,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getConversation } from "../../core/action/chatAction";
+import { getConversation, setStateChat, updateConversation, updateConversationSuccess } from "../../core/action/chatAction";
 import ConversationItem from "../../components/ConversationItem/ConversationItem";
 import { Outlet, useLocation } from "react-router-dom";
 import CreateConversation from "../../components/CreateConversation";
+import { cloneDeep } from "lodash";
 
 const Chat = () => {
+  const { socket } = useSelector((state) => state.socketReducer);
+
   const { conversations } = useSelector((state) => state.chatReducer);
   const { theme, selectedTheme } = useTheme();
   const conversationRef = useRef();
@@ -22,7 +25,6 @@ const Chat = () => {
   };
 
   const isChatSelected = location.pathname.includes("/chat/");
-  console.log(conversations);
 
   const dispatch = useDispatch();
 
@@ -30,6 +32,18 @@ const Chat = () => {
     loadConversation();
   }, []);
 
+  useEffect(() => {
+    if (socket) {
+      socket.on("conversation updated", (data) => {
+        console.log("Conversation updated:", data);
+        console.log(data);
+        
+        if (data && data?.status === 200) {
+          dispatch(updateConversationSuccess(data.conversation));
+        } 
+      });
+    }
+  }, [socket]);
   const loadConversation = () => {
     dispatch(getConversation());
   };

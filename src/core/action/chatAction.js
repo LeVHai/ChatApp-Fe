@@ -64,3 +64,15 @@ export const getUserRoom = (params, callBack) => {
         callBack
     }
 }
+export const setStateChat = (params)=>{
+    return {
+        type:CHAT_TYPE.SET_STATE_CHAT,
+        params,
+    }
+}
+export const updateConversationSuccess = (params)=>{
+    return {
+        type:CHAT_TYPE.UPDATE_CONVERSATION_SUCCESS,
+        params,
+    }
+}

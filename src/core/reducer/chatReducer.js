@@ -14,6 +14,7 @@ export const CHAT_TYPE = {
   UPDATE_CONVERSATION_SUCCESS: "UPDATE_CONVERSATION_SUCCESS",
   GET_MESSAGE: "GET_MESSAGE",
   GET_USER_ROOM: "GET_USER_ROOM",
+  SET_STATE_CHAT: "SET_STATE_CHAT",
 };
 
 const initialState = {
@@ -23,6 +24,8 @@ const initialState = {
 
 const chatReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CHAT_TYPE.SET_STATE_CHAT:
+      return { ...state, ...action.params };
     case CHAT_TYPE.GET_USER_ONLINE:
       return {
         ...state,
@@ -41,28 +44,32 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         conversations: state.conversations.concat(action.params),
       };
-      case CHAT_TYPE.UPDATE_CONVERSATION_SUCCESS:
-        console.log("action.params", action.params);
-  
-        const index = state.conversations.findIndex(
-          (conversation) => conversation._id === action.params._id
-        );
-        console.log(index);
-  
-        if (index !== -1) {
-          const updatedConversations = cloneDeep(state.conversations)
-          updatedConversations[index] = {
-            ...updatedConversations[index],
-            ...action.params, 
-          };
-  
-          return {
-            ...state,
-            conversations: updatedConversations,
-          };
-        }
-  
-        return state; // Trả về state hiện tại nếu không tìm thấy cuộc hội thoại
+    case CHAT_TYPE.UPDATE_CONVERSATION_SUCCESS:
+      console.log("action.params", action.params);
+
+      const index = state.conversations.findIndex(
+        (conversation) => conversation._id === action.params._id
+      );
+      console.log(index);
+
+      if (index !== -1) {
+        const updatedConversations = cloneDeep(state.conversations);
+        updatedConversations[index] = {
+          ...updatedConversations[index],
+          ...action.params,
+        };
+
+        return {
+          ...state,
+          conversations: updatedConversations,
+        };
+      } else {
+        const updatedConversations = cloneDeep(state.conversations);
+        updatedConversations.unshift(action.params);
+        return { ...state, conversations: updatedConversations };
+      }
+
+      return state; // Trả về state hiện tại nếu không tìm thấy cuộc hội thoại
     default:
       return state;
   }

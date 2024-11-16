@@ -46,6 +46,7 @@ const ChatWindow = () => {
   const [conversation, setConversation] = useState(null);
   const [loadingMess, setLoadingMess] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [members, setMembers] = useState([]);
   const lazyLoad = useRef({ page: 1, limit: 15 });
   const addMemberRef = useRef();
   const chatContentRef = useRef(null);
@@ -64,7 +65,6 @@ const ChatWindow = () => {
       );
     }
   }, [id]);
-
   const loadMessage = useCallback(() => {
     setLoadingMess(true);
     dispatch(
@@ -83,7 +83,6 @@ const ChatWindow = () => {
       )
     );
   }, [dispatch, id]);
-
   useEffect(() => {
     setMessages([]);
     lazyLoad.current.page = 1;
@@ -91,6 +90,12 @@ const ChatWindow = () => {
     loadConversation();
     loadMessage();
   }, [id, loadConversation, loadMessage]);
+
+  useEffect(() => {
+    if (chatContentRef.current) {
+      chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (socket) {
@@ -108,10 +113,6 @@ const ChatWindow = () => {
     }
   }, [loadingMess, hasMore, loadMessage]);
 
-  const onEmojiClick = (emojiObject) =>
-    setMessage((prev) => prev + emojiObject.emoji);
-  const applyChange = (e) => setMessage(e.target.value);
-
   const sendMessage = () => {
     if (!message.trim()) return;
     socket.emit("send message", {
@@ -122,12 +123,20 @@ const ChatWindow = () => {
     setMessage("");
   };
 
-  useEffect(() => {
-    if (chatContentRef.current) {
-      chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
-    }
-  }, [messages]);
-
+  const onEmojiClick = (emojiObject) =>
+    setMessage((prev) => prev + emojiObject.emoji);
+  const applyChange = (e) => setMessage(e.target.value);
+  const addMemberHandler = (m) => {
+    console.log("ol");
+    
+    socket.emit("add members", {
+      conversation_id: conversation._id,
+      member_id: members,
+    });
+    // dispatch(postAddMember({ conversation_id: conversation._id, member_id : members }, res => {
+    //  console.log(res);
+    // }))
+  };
   return (
     <ConfigProvider
       theme={{
@@ -164,14 +173,22 @@ const ChatWindow = () => {
               <Popover
                 content={
                   <Space>
-                    <UserSelect style={{ width: 300 }} maxTagCount={2} />
-                    <Button>Add</Button>
+                    <UserSelect
+                      onChange={setMembers}
+                      style={{ width: 300 }}
+                      maxTagCount={2}
+                    />
+                    <Button  onClick={addMemberHandler}>Add</Button>
                   </Space>
                 }
                 placement="bottomRight"
                 trigger="click"
               >
-                <Button type="link" icon={<UsergroupAddOutlined />} />
+                <Button
+                 
+                  type="link"
+                  icon={<UsergroupAddOutlined />}
+                />
               </Popover>
               <Button
                 onClick={() => addMemberRef.current.open()}
